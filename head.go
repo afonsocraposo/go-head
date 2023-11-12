@@ -9,22 +9,22 @@ import (
 )
 
 func main() {
-    var n int
-    var c int
+	var n int
+	var c int
 	flag.IntVar(&n, "n", 10, "display first n lines")
 	flag.IntVar(&c, "c", 0, "display first c bytes")
 	flag.Parse()
 
 	if flag.NArg() > 0 {
-        for i := 0; i < flag.NArg(); i++ {
-            filename := flag.Arg(i)
-            if flag.NArg() > 1 {
-                fmt.Printf("==> %s <==\n", filename)
-            }
+		for i := 0; i < flag.NArg(); i++ {
+			filename := flag.Arg(i)
+			if flag.NArg() > 1 {
+				fmt.Printf("==> %s <==\n", filename)
+			}
 			handleFile(filename, n, c)
-            if flag.NArg() > 1 && i < flag.NArg() - 1 {
-                fmt.Println()
-            }
+			if flag.NArg() > 1 && i < flag.NArg()-1 {
+				fmt.Println()
+			}
 		}
 	} else {
 		handleFile("", n, c)
@@ -33,26 +33,26 @@ func main() {
 }
 
 func handleFile(filename string, nFlag int, cFlag int) {
-    var f *os.File
-    var err error
-    if filename == "" {
-        f = os.Stdin
-    } else {
-        f, err = os.Open(filename)
-        if err != nil {
-            log.Fatal(err)
-        }
-        defer func() {
-            if err = f.Close(); err != nil {
-                log.Fatal(err)
-            }
-        }()
-    }
+	var f *os.File
+	var err error
+	if filename == "" {
+		f = os.Stdin
+	} else {
+		f, err = os.Open(filename)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer func() {
+			if err = f.Close(); err != nil {
+				log.Fatal(err)
+			}
+		}()
+	}
 	if cFlag == 0 {
 		readLines(f, nFlag)
 	} else {
 		readBytes(f, cFlag)
-        fmt.Println()
+		fmt.Println()
 	}
 }
 
